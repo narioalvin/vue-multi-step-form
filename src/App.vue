@@ -9,7 +9,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 
 export default {
-  name: 'App'
+  name: 'App',
 };
 </script>
 
@@ -20,15 +20,43 @@ export default {
   box-sizing: border-box;
 }
 
+@font-face {
+  font-family: 'Poppins';
+  src: url('./assets/font/Poppins-Regular.ttf');
+  src: local('Poppins Regular'), local('Poppins-Regular'),
+    url('./assets/font/Poppins-Regular.ttf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('./assets/font/Poppins-Medium.ttf');
+  src: local('Poppins Medium'), local('Poppins-Medium'),
+    url('./assets/font/Poppins-Medium.ttf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('./assets/font/Poppins-Bold.ttf');
+  src: local('Poppins Bold'), local('Poppins-Bold'),
+    url('./assets/font/Poppins-Bold.ttf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Poppins', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 .page {
   height: 100vh;
-  background: #f2f2f2;
+  background-color: #8d5185;
+  background-image: linear-gradient(315deg, #8d5185 0%, #a1bafe 74%);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -40,7 +68,10 @@ h1 {
   font-weight: bold;
 }
 
-.registration,
+a {
+  font-size: 14px;
+}
+
 .verification,
 .login {
   width: 70%;
@@ -50,16 +81,66 @@ h1 {
   overflow: hidden;
 }
 
-.registration .registration-container {
-  display: flex;
-  height: 100%;
+.form {
+  width: 400px;
+  height: 75vh;
+  background: #ffffff;
+  border-radius: 10px;
+  // overflow: hidden;
+  -webkit-box-shadow: 10px 10px 38px 0px rgba(0, 0, 0, 0.38);
+  -moz-box-shadow: 10px 10px 38px 0px rgba(0, 0, 0, 0.38);
+  box-shadow: 10px 10px 38px 0px rgba(0, 0, 0, 0.38);
 }
 
-.registration .registration-container .section-one,
-.registration .registration-container .section-two {
+.form .form-container {
+  display: flex;
   height: 100%;
-  flex: 0.5;
+  flex-direction: column;
 }
+
+.top-text {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.top-text span {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.success {
+  background-color: #32cd56;
+  border-color: #32cd56;
+}
+
+.primary {
+  background-color: #1a88ff;
+  border-color: #1a88ff;
+}
+
+.error-message {
+  position: relative;
+  width: 340px;
+  text-align: center;
+}
+
+.error-message p {
+  margin-bottom: 0;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: #fe4a49;
+}
+
+// .registration .registration-container .section-one,
+// .registration .registration-container .section-two {
+//   flex: 1;
+// }
+
+// .registration .registration-container .section-one {
+//   height: 10vh;
+// }
 
 .btn-link {
   background: none;
@@ -77,6 +158,7 @@ h1 {
   min-width: 200px;
   font-size: 14px;
   letter-spacing: 0.05em;
+  height: 40px;
 }
 
 .modal-header {
@@ -98,38 +180,78 @@ h1 {
   font-weight: 600;
 }
 
-.btn-register {
-  margin-top: 30px;
+.submit-btn {
+  margin: 20px 0;
+  position: relative;
 }
 
-.btn-register div {
+.submit-btn div {
   width: 100%;
 }
 
+.google {
+  color: #ffffff;
+  position: absolute;
+  top: 12px;
+  left: 12px;
+}
+
+h6 {
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid #d5d5dd;
+  line-height: 0.1em;
+  margin: 10px 0 20px;
+}
+
+h6 span {
+  background: #fff;
+  padding: 0 10px;
+  color: #202020;
+}
+
 .section-one {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  height: 10vh;
+  text-align: center;
 }
 
 .section-one img {
-  width: 50%;
+  width: 32%;
+  position: relative;
+  bottom: 70px;
 }
 
 .section-two {
   display: flex;
-  flex-direction: column;
   justify-content: center;
+  // align-items: center;
+  flex-direction: column;
+  padding: 0 30px;
+  height: 70vh;
 }
 
 .form-content {
-  padding-right: 70px;
+  width: 100%;
 }
 
 .input-icon {
   position: absolute;
   top: 14px;
+  color: #202020;
+  font-size: 13px;
+}
+
+.left {
+  left: 14px;
+}
+
+.right {
+  right: 14px;
+}
+
+.eye-icon {
+  // left: 0;
+  right: 1px;
 }
 
 .checkbox label {
@@ -142,18 +264,6 @@ h1 {
   height: 15px;
   position: relative;
   top: 3px;
-}
-
-.google {
-  color: #db4437;
-}
-
-.twitter {
-  color: #00acee;
-}
-
-.facebook {
-  color: #3b5998;
 }
 
 .login-bottom {
@@ -173,7 +283,6 @@ h1 {
 .login-bottom .brands:last-child {
   margin-right: 0;
 }
-
 
 .otp-input {
   width: 40px;

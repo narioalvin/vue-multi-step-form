@@ -1,32 +1,58 @@
 <template>
   <div class="page">
-    <div class="registration">
-      <div class="registration-container">
+    <div class="form">
+      <div class="form-container">
         <div class="section-one">
-          <img src="../assets/img/login.svg" />
+          <img src="../assets/img/avatar.png" />
         </div>
         <div class="section-two">
-          <h1>Sign In</h1>
+          <div class="top-text">
+            <span class="create-label">Sign In</span>
+            <a href="/">Create Account</a>
+          </div>
+
           <div class="form-content">
             <div class="form-item">
-              <font-awesome-icon class="input-icon" :icon="['fas', 'search']" />
-              <input type="text" id="loginUser" name="loginUser" required />
-              <label for="loginUser">Name</label>
+              <font-awesome-icon
+                class="input-icon left"
+                :icon="['far', 'paper-plane']"
+              />
+              <input
+                type="text"
+                id="email"
+                name="email"
+                v-model="user.email"
+                @keyup.enter="signin"
+                required
+              />
+              <label for="email">Email</label>
             </div>
 
             <div class="form-item">
-              <font-awesome-icon class="input-icon" :icon="['fas', 'lock']" />
-              <input type="password" id="loginpass" name="loginpass" required />
-              <label for="loginpass">Password</label>
+              <font-awesome-icon class="input-icon left" :icon="['fas', 'lock']" />
+              <input
+                type="password"
+                id="pass"
+                name="pass"
+                v-model="user.password"
+                @keyup.enter="signin"
+                required
+              />
+              <label for="pass">Password</label>
+              <font-awesome-icon class="input-icon right" :icon="['far', 'eye']" />
             </div>
-
-            <div class="checkbox">
-              <label><input type="checkbox" value="" />Remember Me</label>
+            <div class="forgot-password">
+              <a href="#">Forgot Password?</a>
             </div>
-
-            <div class="btn-register">
+          </div>
+          <div class="error-message">
+            <p v-if="errorMessage !== ''">{{ errorMessage }}</p>
+          </div>
+          <div>
+            <div class="submit-btn">
               <b-overlay
                 :show="busy"
+                style="text-align: center"
                 rounded
                 opacity="0.6"
                 spinner-small
@@ -35,29 +61,33 @@
               >
                 <b-button
                   ref="button"
-                  class="btn-primary"
+                  class="btn-primary success"
                   pill
                   :disabled="busy"
-                  variant="primary"
+                  variant="success"
+                  @click="signin"
                 >
-                  Continue
+                  Sign In
                 </b-button>
               </b-overlay>
             </div>
-            <div class="login-bottom">
-              <p>Or sign in with</p>
+            <div>
+              <h6><span>or</span></h6>
+            </div>
+
+            <div class="submit-btn">
               <font-awesome-icon
                 class="brands google"
                 :icon="['fab', 'google']"
               />
-              <font-awesome-icon
-                class="brands twitter"
-                :icon="['fab', 'twitter']"
-              />
-              <font-awesome-icon
-                class="brands facebook"
-                :icon="['fab', 'facebook']"
-              />
+              <b-button
+                ref="button"
+                class="btn-primary primary"
+                pill
+                variant="primary"
+              >
+                Sign in with Google
+              </b-button>
             </div>
           </div>
         </div>
@@ -67,27 +97,65 @@
 </template>
 
 <script>
+import UserService from '../service/UserService';
+
 export default {
   name: 'Login',
   data() {
     return {
+      user: {
+        email: '',
+        password: '',
+      },
       busy: false,
+      errorMessage: '',
     };
   },
+  methods: {
+    async signin() {
+      this.busy = true;
+
+      try {
+        this.errorMessage = '';
+        await UserService.login(this.user);
+
+        const element = document.querySelector('.form');
+        element.style['-webkit-animation'] = 'animRight .5s forwards';
+
+        setTimeout(() => {
+          this.$router.push('dashboard');
+        }, 90);
+      } catch (error) {
+        this.errorMessage = error.response.data;
+        this.busy = false;
+      }
+    },
+  },
   mounted() {
-    const element = document.querySelector('.registration-container');
+    const element = document.querySelector('.form');
     element.style['-webkit-animation'] = 'animLeft .5s';
+
+    document.getElementById('email').focus();
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.form {
+  height: 70vh;
+}
+
+.forgot-password {
+      text-align: right;
+    margin-bottom: 10px;
+}
+
 $focus: #06f;
 $base: #999;
 
 .form-item {
   position: relative;
-  margin-bottom: 1em;
+  margin-bottom: 15px;
 
   label,
   input {
@@ -96,14 +164,15 @@ $base: #999;
   }
 
   input {
+    padding: 6px 15px 6px 40px;
     border: 0;
-    margin-top: 5px;
-    padding: 6px 15px 6px 27px;
-    border-bottom: 1px solid $base;
-    width: 100%;
+    border-radius: 16px;
     line-height: 20px;
     font-size: 14px;
-    color: #222;
+    color: #202020;
+    width: 100%;
+    height: 45px;
+    background: #e6e6ea;
 
     &:valid + label {
       color: $base;
@@ -128,13 +197,12 @@ $base: #999;
   label {
     position: absolute;
     top: 12px;
-    left: 25px;
+    left: 38px;
     padding: 0 2px;
     line-height: 20px;
-    font-size: 13px;
-    letter-spacing: 0.1em;
+    font-size: 12px;
+    letter-spacing: 0.125em;
     color: $base;
-    background: #fff;
     pointer-events: none;
     transform-origin: left center;
     transform: translateY(0) scale(1);

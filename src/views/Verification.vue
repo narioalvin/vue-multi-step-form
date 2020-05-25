@@ -16,7 +16,7 @@
             <button class="btn-link">Wrong number or email?</button>
           </div>
           <b-modal
-            ref="success-modal"
+            ref="info-modal"
             id="modal-center"
             size="sm"
             hide-footer
@@ -24,7 +24,7 @@
             centered
           >
             <div v-if="success">
-              <p class="my-4">Successfully Verified!</p>
+              <p class="my-4">Successfully Registered!</p>
               <Check />
             </div>
             <div v-else>
@@ -44,6 +44,7 @@
 <script>
 import Otp from '@/components/Otp.vue';
 import Check from '@/components/Check.vue';
+import UserService from '../service/UserService';
 
 export default {
   name: 'Verification',
@@ -51,55 +52,50 @@ export default {
     Check,
     Otp,
   },
-  props: ['verificationCode'],
+  props: ['user'],
   data() {
     return {
-      user: {
-        name: '',
-        email: '',
-        number: '',
-        password: '',
-      },
-      verification: {
-        code: '',
-        email: '',
-      },
       loading: false,
       success: Boolean,
+      transactionCompleted: false,
     };
   },
+  beforeRouteEnter(to, from, next) {
+    const user = to.params;
+    if (Object.keys(user).length === 0) next({ name: '' });
+    else next();
+  },
+  beforeRouteLeave(to, from, next) {
+    if (to.name !== 'Home' && !this.transactionCompleted) next({ name: '' });
+    else next();
+  },
   mounted() {
-    const element = document.querySelector('.verification-container');
+    const element = document.querySelector('.verification');
     element.style['-webkit-animation'] = 'animLeft .5s';
-    console.log(this.verificationCode);
   },
   methods: {
     async handleOnComplete(value) {
       this.loading = true;
 
-      setTimeout(() => {
+      if (this.user.code === +value) {
+        await UserService.createUser(this.user);
         this.loading = false;
-
-        this.success = this.verificationCode === +value ? true : false;
-
-        this.$refs['success-modal'].show();
+        this.success = true;
+        this.transactionCompleted = true;
+        this.$refs['info-modal'].show();
 
         setTimeout(() => {
+          this.$router.push('login');
+        }, 3000);
+      } else {
+        this.loading = false;
+        this.success = false;
+        this.$refs['info-modal'].show();
 
-          this.$refs['success-modal'].hide();
-          if (this.success) {
-            this.$router.push('login')
-          }
-          
+        setTimeout(() => {
+          this.$refs['info-modal'].hide();
         }, 2000);
-      }, 2000);
-
-      console.log(this.verificationCode, +value);
-      // if (this.verificationCode === +this.userVerifyInput) {
-      //   await UserService.createUser(this.user);
-      // } else {
-      //   console.log('WRONG VERIFICATION');
-      // }
+      }
     },
   },
 };
