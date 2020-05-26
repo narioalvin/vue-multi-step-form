@@ -325,4 +325,23 @@ h6 span {
     width: 340px;
   }
 }
+
+@media only screen and (min-width: 360px) and (max-device-height: 667px) and (orientation: landscape) {
+  .page {
+    overflow: scroll;
+  }
+
+  .form {
+    height: 95vh;
+    overflow: scroll;
+  }
+
+  .section-two {
+    margin-top: 120px;
+  }
+
+  .form-container {
+    margin-top: 70px;
+  }
+}
 </style>
