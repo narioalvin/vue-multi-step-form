@@ -13,7 +13,7 @@
             <Otp @handleOnComplete="handleOnComplete" />
           </div>
           <div>
-            <button class="btn-link">Wrong number or email?</button>
+            <a @click="goHome" class="btn-link">Wrong email?</a>
           </div>
           <b-modal
             ref="info-modal"
@@ -45,6 +45,7 @@
 import Otp from '@/components/Otp.vue';
 import Check from '@/components/Check.vue';
 import UserService from '../service/UserService';
+import UserStore from '../store/UserStore';
 
 export default {
   name: 'Verification',
@@ -58,6 +59,7 @@ export default {
       loading: false,
       success: Boolean,
       transactionCompleted: false,
+      storedUser: {},
     };
   },
   beforeRouteEnter(to, from, next) {
@@ -68,6 +70,9 @@ export default {
   beforeRouteLeave(to, from, next) {
     if (to.name !== 'Home' && !this.transactionCompleted) next({ name: '' });
     else next();
+  },
+  created() {
+    this.storedUser = UserStore.getUser();
   },
   mounted() {
     const element = document.querySelector('.verification');
@@ -97,6 +102,9 @@ export default {
         }, 2000);
       }
     },
+    goHome() {
+      this.$router.push('/');
+    },
   },
 };
 </script>
@@ -105,6 +113,11 @@ export default {
 .verification {
   display: flex;
   text-align: center;
+  width: 95%;
+  height: 70vh;
+  background: #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 .verification-container {
@@ -122,5 +135,22 @@ export default {
 .error {
   font-size: 50px;
   color: #fe4a49;
+}
+
+.btn-link {
+  color: #007bff;
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .verification {
+    width: 75%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .verification {
+    width: 50%;
+  }
 }
 </style>

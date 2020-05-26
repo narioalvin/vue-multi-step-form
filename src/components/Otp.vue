@@ -18,23 +18,23 @@ export default {
   name: 'Otp',
   data() {
     return {
-      value: null
-    }
+      value: null,
+    };
   },
   methods: {
     handleOnChange(value) {
       if (value.length > 5) {
         this.value = value;
       }
-    }
+    },
   },
 };
 </script>
 
 <style lang="less">
 .otp-input {
-  width: 50px !important;
-  height: 60px !important;
+  width: 40px !important;
+  height: 50px !important;
   padding: 5px;
   margin: 0 5px !important;
   font-size: 30px !important;
@@ -50,5 +50,12 @@ export default {
 .otp-input::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+@media (min-width: 768px) {
+  .otp-input {
+    width: 50px !important;
+    height: 60px !important;
+  }
 }
 </style>

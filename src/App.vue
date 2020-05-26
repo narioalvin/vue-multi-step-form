@@ -72,21 +72,16 @@ a {
   font-size: 14px;
 }
 
-.verification,
-.login {
-  width: 70%;
-  height: 70vh;
-  background: #ffffff;
-  border-radius: 10px;
-  overflow: hidden;
+.password:hover {
+  cursor: pointer;
+  opacity: 0.7;
 }
 
 .form {
-  width: 400px;
-  height: 75vh;
+  width: 300px;
+  height: 82vh;
   background: #ffffff;
   border-radius: 10px;
-  // overflow: hidden;
   -webkit-box-shadow: 10px 10px 38px 0px rgba(0, 0, 0, 0.38);
   -moz-box-shadow: 10px 10px 38px 0px rgba(0, 0, 0, 0.38);
   box-shadow: 10px 10px 38px 0px rgba(0, 0, 0, 0.38);
@@ -121,7 +116,7 @@ a {
 
 .error-message {
   position: relative;
-  width: 340px;
+  width: 280px;
   text-align: center;
 }
 
@@ -132,15 +127,6 @@ a {
   letter-spacing: 0.05em;
   color: #fe4a49;
 }
-
-// .registration .registration-container .section-one,
-// .registration .registration-container .section-two {
-//   flex: 1;
-// }
-
-// .registration .registration-container .section-one {
-//   height: 10vh;
-// }
 
 .btn-link {
   background: none;
@@ -216,17 +202,16 @@ h6 span {
 }
 
 .section-one img {
-  width: 32%;
+  width: 27%;
   position: relative;
-  bottom: 70px;
+  bottom: 40px;
 }
 
 .section-two {
   display: flex;
   justify-content: center;
-  // align-items: center;
   flex-direction: column;
-  padding: 0 30px;
+  padding: 0 10px;
   height: 70vh;
 }
 
@@ -250,7 +235,6 @@ h6 span {
 }
 
 .eye-icon {
-  // left: 0;
   right: 1px;
 }
 
@@ -264,24 +248,6 @@ h6 span {
   height: 15px;
   position: relative;
   top: 3px;
-}
-
-.login-bottom {
-  text-align: center;
-  margin-top: 20px;
-}
-
-.login-bottom p {
-  font-size: 15px;
-}
-
-.login-bottom .brands {
-  font-size: 25px;
-  margin-right: 15px;
-}
-
-.login-bottom .brands:last-child {
-  margin-right: 0;
 }
 
 .otp-input {
@@ -322,6 +288,41 @@ h6 span {
   to {
     transform: translateX(0);
     opacity: 1;
+  }
+}
+
+@media (min-width: 360px) {
+  .form {
+    width: 350px;
+  }
+
+  .section-two {
+    padding: 0 20px;
+  }
+
+  .section-one img {
+    width: 32%;
+    bottom: 70px;
+  }
+
+  .error-message {
+    width: 310px;
+  }
+}
+
+@media (min-width: 400px) {
+  .form {
+    width: 400px;
+    height: 75vh;
+  }
+
+  .section-one img {
+    width: 30%;
+    bottom: 60px;
+  }
+
+  .error-message {
+    width: 340px;
   }
 }
 </style>

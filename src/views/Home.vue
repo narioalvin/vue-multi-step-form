@@ -118,6 +118,7 @@
 
 <script>
 import UserService from '../service/UserService';
+import UserStore from '../store/UserStore';
 
 export default {
   name: 'Home',
@@ -138,19 +139,21 @@ export default {
       showOtp: false,
       timeout: null,
       isPassVisibile: false,
+      oldEmail: '',
     };
   },
   created() {
-    console.log(this.$router)
+    this.user = UserStore.getUser();
   },
   methods: {
     async verify() {
       this.busy = true;
-
+      
       this.user.code = Math.floor(100000 + Math.random() * 900000);
 
       try {
         this.errorMessage = '';
+
         await UserService.sendMail(this.user);
 
         const element = document.querySelector('.form');
@@ -191,11 +194,6 @@ export default {
 <style lang="scss" scoped>
 .form {
   height: 75vh;
-}
-
-.password:hover {
-  cursor: pointer;
-  opacity: 0.7;
 }
 
 $focus: #06f;
