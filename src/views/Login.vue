@@ -29,7 +29,10 @@
             </div>
 
             <div class="form-item">
-              <font-awesome-icon class="input-icon left" :icon="['fas', 'lock']" />
+              <font-awesome-icon
+                class="input-icon left"
+                :icon="['fas', 'lock']"
+              />
               <input
                 type="password"
                 id="pass"
@@ -39,7 +42,11 @@
                 required
               />
               <label for="pass">Password</label>
-              <font-awesome-icon class="input-icon right" :icon="['far', 'eye']" />
+              <font-awesome-icon
+                @click="showPassword"
+                class="input-icon right password"
+                :icon="['far', isPassVisibile ? 'eye-slash' : 'eye']"
+              />
             </div>
             <div class="forgot-password">
               <a href="#">Forgot Password?</a>
@@ -109,6 +116,7 @@ export default {
       },
       busy: false,
       errorMessage: '',
+      isPassVisibile: false,
     };
   },
   methods: {
@@ -123,11 +131,24 @@ export default {
         element.style['-webkit-animation'] = 'animRight .5s forwards';
 
         setTimeout(() => {
-          this.$router.push('dashboard');
+          this.$router.push({
+            name: 'Dashboard',
+            params: { user: this.user },
+          });
         }, 90);
       } catch (error) {
         this.errorMessage = error.response.data;
         this.busy = false;
+      }
+    },
+    showPassword() {
+      let pass = document.getElementById('pass');
+      if (pass.type === 'password') {
+        pass.type = 'text';
+        this.isPassVisibile = true;
+      } else {
+        pass.type = 'password';
+        this.isPassVisibile = false;
       }
     },
   },
@@ -141,13 +162,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.form {
-  height: 70vh;
-}
-
 .forgot-password {
-      text-align: right;
-    margin-bottom: 10px;
+  text-align: right;
+  margin-bottom: 10px;
 }
 
 $focus: #06f;
