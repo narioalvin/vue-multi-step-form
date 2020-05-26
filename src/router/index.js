@@ -12,28 +12,37 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home,
-    props: true
+    props: true,
+    meta: { title: 'Registration' }
   },
   {
     path: '/verification',
     name: 'Verification',
     component: Verification,
-    props: true
+    props: true,
+    meta: { title: 'Verification' }
   },
   {
     path: '/login',
     name: 'Login',
-    component: Login
+    component: Login,
+    meta: { title: 'Login' }
   },
   {
     path: '/dashboard',
     name: 'Dashboard',
-    component: Dashboard
+    component: Dashboard,
+    meta: { title: 'Dashboard' }
   }
 ]
 
 const router = new VueRouter({
   routes
 })
+
+router.beforeEach((to, from, next) => {
+  document.title = to.meta.title;
+  next();
+});
 
 export default router
