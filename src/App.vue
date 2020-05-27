@@ -55,6 +55,7 @@ export default {
 
 .page {
   height: 100vh;
+  width: 100%;
   background-color: #8d5185;
   background-image: linear-gradient(315deg, #8d5185 0%, #a1bafe 74%);
   display: flex;
@@ -79,7 +80,9 @@ a {
 
 .form {
   width: 300px;
-  height: 82vh;
+  min-height: 450px;
+  // height: 82vh;
+  height: 70vh;
   background: #ffffff;
   border-radius: 10px;
   -webkit-box-shadow: 10px 10px 38px 0px rgba(0, 0, 0, 0.38);
@@ -205,6 +208,7 @@ h6 span {
   width: 27%;
   position: relative;
   bottom: 40px;
+  min-height: 80px;
 }
 
 .section-two {
@@ -213,6 +217,7 @@ h6 span {
   flex-direction: column;
   padding: 0 10px;
   height: 70vh;
+  min-height: 400px;
 }
 
 .form-content {
@@ -282,7 +287,7 @@ h6 span {
 
 @keyframes animLeft {
   from {
-    transform: translateX(300px);
+    transform: translateX(30px);
     opacity: 0;
   }
   to {
@@ -302,7 +307,7 @@ h6 span {
 
   .section-one img {
     width: 32%;
-    bottom: 70px;
+    bottom: 45px;
   }
 
   .error-message {
@@ -333,11 +338,15 @@ h6 span {
 
   .form {
     height: 95vh;
-    overflow: scroll;
+    margin-top: 300px;
+    overflow: hidden;
+    margin-bottom: 10px;
+    min-height: 580px !important;
   }
 
   .section-two {
     margin-top: 120px;
+    min-height: 300px;
   }
 
   .form-container {
