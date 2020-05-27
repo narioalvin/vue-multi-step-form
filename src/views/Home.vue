@@ -19,10 +19,12 @@
               />
               <input
                 type="text"
+                style="text-transform: capitalize;"
                 id="user"
                 name="user"
                 v-model="user.name"
                 @keyup.enter="verify"
+                autocomplete="off"
                 required
               />
               <label for="user">Name</label>
@@ -39,6 +41,7 @@
                 name="email"
                 v-model="user.email"
                 @keyup.enter="verify"
+                autocomplete="off"
                 required
               />
               <label for="email">Email</label>
@@ -55,6 +58,7 @@
                 name="pass"
                 v-model="user.password"
                 @keyup.enter="verify"
+                autocomplete="off"
                 required
               />
               <label for="pass">Password</label>
@@ -148,7 +152,7 @@ export default {
   methods: {
     async verify() {
       this.busy = true;
-      
+
       this.user.code = Math.floor(100000 + Math.random() * 900000);
 
       try {
@@ -192,9 +196,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.form {
-  height: 75vh;
-}
+// .form {
+//   height: 75vh;
+// }
 
 $focus: #06f;
 $base: #999;

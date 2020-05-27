@@ -23,6 +23,7 @@
                 name="email"
                 v-model="user.email"
                 @keyup.enter="signin"
+                autocomplete="off"
                 required
               />
               <label for="email">Email</label>
@@ -39,6 +40,7 @@
                 name="pass"
                 v-model="user.password"
                 @keyup.enter="signin"
+                autocomplete="off"
                 required
               />
               <label for="pass">Password</label>
