@@ -1,8 +1,7 @@
 let user = {
   name: '',
   email: '',
-  password: '',
-  code: ''
+  password: ''
 };
 
 class UserStore {

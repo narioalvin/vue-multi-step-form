@@ -132,8 +132,7 @@ export default {
       user: {
         name: '',
         email: '',
-        password: '',
-        code: '',
+        password: ''
       },
       verificationCode: '',
       userVerifyInput: '',
@@ -153,12 +152,10 @@ export default {
     async verify() {
       this.busy = true;
 
-      this.user.code = Math.floor(100000 + Math.random() * 900000);
-
       try {
         this.errorMessage = '';
 
-        await UserService.sendMail(this.user);
+        await UserService.register(this.user);
 
         const element = document.querySelector('.form');
         element.style['-webkit-animation'] = 'animRight .5s forwards';

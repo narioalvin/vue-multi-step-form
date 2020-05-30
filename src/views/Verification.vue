@@ -82,8 +82,8 @@ export default {
     async handleOnComplete(value) {
       this.loading = true;
 
-      if (this.user.code === +value) {
-        await UserService.createUser(this.user);
+      try {
+        await UserService.verify(value);
         this.loading = false;
         this.success = true;
         this.transactionCompleted = true;
@@ -92,7 +92,7 @@ export default {
         setTimeout(() => {
           this.$router.push('login');
         }, 3000);
-      } else {
+      } catch (error) {
         this.loading = false;
         this.success = false;
         this.$refs['info-modal'].show();
