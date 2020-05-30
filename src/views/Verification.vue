@@ -88,9 +88,11 @@ export default {
         this.success = true;
         this.transactionCompleted = true;
         this.$refs['info-modal'].show();
-
         setTimeout(() => {
-          this.$router.push('login');
+          this.$router.push({
+            name: 'Login',
+            params: { email: this.user.email },
+          });
         }, 3000);
       } catch (error) {
         this.loading = false;

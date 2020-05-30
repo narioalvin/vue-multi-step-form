@@ -110,6 +110,7 @@ import UserService from '../service/UserService';
 
 export default {
   name: 'Login',
+  props: ['email'],
   data() {
     return {
       user: {
@@ -120,6 +121,9 @@ export default {
       errorMessage: '',
       isPassVisibile: false,
     };
+  },
+  created() {
+    this.user.email = this.email;
   },
   methods: {
     async signin() {
@@ -158,7 +162,7 @@ export default {
     const element = document.querySelector('.form');
     element.style['-webkit-animation'] = 'animLeft .5s';
 
-    document.getElementById('email').focus();
+    document.getElementById('pass').focus();
   },
 };
 </script>
