@@ -82,17 +82,19 @@ export default {
     async handleOnComplete(value) {
       this.loading = true;
 
-      if (this.user.code === +value) {
-        await UserService.createUser(this.user);
+      try {
+        await UserService.verify(value);
         this.loading = false;
         this.success = true;
         this.transactionCompleted = true;
         this.$refs['info-modal'].show();
-
         setTimeout(() => {
-          this.$router.push('login');
+          this.$router.push({
+            name: 'Login',
+            params: { email: this.user.email },
+          });
         }, 3000);
-      } else {
+      } catch (error) {
         this.loading = false;
         this.success = false;
         this.$refs['info-modal'].show();
