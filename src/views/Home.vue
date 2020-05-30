@@ -109,6 +109,7 @@
                 class="btn-primary primary"
                 pill
                 variant="primary"
+                @click="googleSignin"
               >
                 Sign up with Google
               </b-button>
@@ -132,7 +133,7 @@ export default {
       user: {
         name: '',
         email: '',
-        password: ''
+        password: '',
       },
       verificationCode: '',
       userVerifyInput: '',
@@ -171,12 +172,12 @@ export default {
         this.busy = false;
       }
     },
-    onClick() {
-      this.busy = true;
-      setTimeout(() => {
-        this.tabIndex++;
-        this.busy = false;
-      }, 5000);
+    async googleSignin() {
+      try {
+        await UserService.googleSignin();
+      } catch (error) {
+        console.log(error);
+      }
     },
     showPassword() {
       let pass = document.getElementById('pass');

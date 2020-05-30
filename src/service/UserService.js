@@ -27,6 +27,10 @@ class UserService {
       ...user
     });
   }
+
+  static googleSignin() {
+    return axios.get('http://localhost:5000/google');
+  }
 }
 
 export default UserService;
