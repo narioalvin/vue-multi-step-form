@@ -8,7 +8,7 @@
         <div class="section-two">
           <div class="top-text">
             <span>Create Account</span>
-            <a href="/#/login">Already a member</a>
+            <a href="/#/login" @click="directToLogin">Already a member</a>
           </div>
 
           <div class="form-content">
@@ -127,7 +127,6 @@ import UserStore from '../store/UserStore';
 
 export default {
   name: 'Home',
-  props: ['test'],
   data() {
     return {
       user: {
@@ -149,6 +148,12 @@ export default {
   created() {
     this.user = UserStore.getUser();
   },
+  mounted() {
+    const element = document.querySelector('.form');
+    element.style['-webkit-animation'] = 'animLeft .5s';
+
+    document.getElementById('user').focus();
+  },
   methods: {
     async verify() {
       this.busy = true;
@@ -166,6 +171,7 @@ export default {
             name: 'Verification',
             params: { user: this.user },
           });
+          UserStore.setUser(this.user);
         }, 90);
       } catch (error) {
         this.errorMessage = error.response.data;
@@ -173,11 +179,32 @@ export default {
       }
     },
     async googleSignin() {
-      try {
-        await UserService.googleSignin();
-      } catch (error) {
-        console.log(error);
-      }
+      this.popupwindow(
+        'https://radiant-fjord-77216.herokuapp.com/google',
+        'Multi-Step Form',
+        800,
+        800
+      );
+      window.addEventListener('message', (message) => {
+        UserStore.setCurrentUser(message.data.user);
+        this.$router.push('dashboard');
+      });
+    },
+    popupwindow(url, title, width, height) {
+      const left = screen.width / 2 - width / 2;
+      const top = screen.height / 2 - height / 2;
+      return window.open(
+        url,
+        title,
+        'location=1,status=1,scrollbars=1,width=' +
+          width +
+          ', height=' +
+          height +
+          ', top=' +
+          top +
+          ', left=' +
+          left
+      );
     },
     showPassword() {
       let pass = document.getElementById('pass');
@@ -189,6 +216,9 @@ export default {
         this.isPassVisibile = false;
       }
     },
+    directToLogin() {
+      UserStore.setUser({});
+    }
   },
 };
 </script>

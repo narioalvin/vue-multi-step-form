@@ -10,9 +10,9 @@ class UserService {
     });
   }
 
-  static verify(code) {
+  static verify(user) {
     return axios.post(`${url}verify`, {
-      code
+      ...user
     });
   }
 
@@ -26,10 +26,6 @@ class UserService {
     return axios.post(`${url}login`, {
       ...user
     });
-  }
-
-  static googleSignin() {
-    return axios.get('http://localhost:5000/google');
   }
 }
 

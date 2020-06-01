@@ -8,7 +8,7 @@
         <div class="section-two">
           <div class="top-text">
             <span class="create-label">Sign In</span>
-            <a href="/">Create Account</a>
+            <a href="/#/">Create Account</a>
           </div>
 
           <div class="form-content">
@@ -107,40 +107,41 @@
 
 <script>
 import UserService from '../service/UserService';
+import UserStore from '../store/UserStore';
 
 export default {
   name: 'Login',
-  props: ['email'],
   data() {
     return {
-      user: {
-        email: '',
-        password: '',
-      },
+      user: {},
       busy: false,
       errorMessage: '',
       isPassVisibile: false,
     };
   },
   created() {
-    this.user.email = this.email;
+    this.user = UserStore.getUser();
   },
   methods: {
     async signin() {
       this.busy = true;
 
       try {
+        const userToSend = {
+          email: this.user.email,
+          password: this.user.password
+        }
         this.errorMessage = '';
-        await UserService.login(this.user);
+        await UserService.login(userToSend);
 
         const element = document.querySelector('.form');
         element.style['-webkit-animation'] = 'animRight .5s forwards';
 
+        UserStore.setCurrentUser(this.user);
+
         setTimeout(() => {
-          this.$router.push({
-            name: 'Dashboard',
-            params: { user: this.user },
-          });
+          this.$router.push('dashboard');
+          UserStore.setUser({});
         }, 90);
       } catch (error) {
         this.errorMessage = error.response.data;
@@ -162,7 +163,7 @@ export default {
     const element = document.querySelector('.form');
     element.style['-webkit-animation'] = 'animLeft .5s';
 
-    document.getElementById('pass').focus();
+    document.getElementById('email').focus();
   },
 };
 </script>
