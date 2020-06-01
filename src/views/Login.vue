@@ -8,7 +8,7 @@
         <div class="section-two">
           <div class="top-text">
             <span class="create-label">Sign In</span>
-            <a href="/#/">Create Account</a>
+            <btutton class="btn-link" @click="directToRegister">Create Account</btutton>
           </div>
 
           <div class="form-content">
@@ -187,6 +187,9 @@ export default {
           left
       );
     },
+    directToRegister() {
+      this.$router.push({ name: 'Home' });
+    }
   },
   mounted() {
     const element = document.querySelector('.form');

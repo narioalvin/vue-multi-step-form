@@ -8,7 +8,9 @@
         <div class="section-two">
           <div class="top-text">
             <span>Create Account</span>
-            <a href="/#/login" @click="directToLogin">Already a member</a>
+            <button class="btn-link" @click="directToLogin">
+              Already a member
+            </button>
           </div>
 
           <div class="form-content">
@@ -218,7 +220,8 @@ export default {
     },
     directToLogin() {
       UserStore.setUser({});
-    }
+      this.$router.push({ name: 'Login' });
+    },
   },
 };
 </script>

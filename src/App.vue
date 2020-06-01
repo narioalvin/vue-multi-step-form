@@ -135,7 +135,7 @@ a {
   background: none;
   border: 0;
   color: #007bff;
-  margin-top: 15px;
+  font-size: 14px;
 }
 
 .btn-link:hover {
