@@ -94,6 +94,7 @@
                 class="btn-primary primary"
                 pill
                 variant="primary"
+                @click="googleSignin"
               >
                 Sign in with Google
               </b-button>
@@ -129,8 +130,8 @@ export default {
       try {
         const userToSend = {
           email: this.user.email,
-          password: this.user.password
-        }
+          password: this.user.password,
+        };
         this.errorMessage = '';
         await UserService.login(userToSend);
 
@@ -157,6 +158,34 @@ export default {
         pass.type = 'password';
         this.isPassVisibile = false;
       }
+    },
+    async googleSignin() {
+      this.popupwindow(
+        'https://radiant-fjord-77216.herokuapp.com/google',
+        'Multi-Step Form',
+        800,
+        800
+      );
+      window.addEventListener('message', (message) => {
+        UserStore.setCurrentUser(message.data.user);
+        this.$router.push('dashboard');
+      });
+    },
+    popupwindow(url, title, width, height) {
+      const left = screen.width / 2 - width / 2;
+      const top = screen.height / 2 - height / 2;
+      return window.open(
+        url,
+        title,
+        'location=1,status=1,scrollbars=1,width=' +
+          width +
+          ', height=' +
+          height +
+          ', top=' +
+          top +
+          ', left=' +
+          left
+      );
     },
   },
   mounted() {
