@@ -21,7 +21,6 @@
               />
               <input
                 type="text"
-                style="text-transform: capitalize;"
                 id="user"
                 name="user"
                 v-model="user.name"
@@ -164,7 +163,6 @@ export default {
         this.errorMessage = '';
 
         await UserService.register(this.user);
-
         const element = document.querySelector('.form');
         element.style['-webkit-animation'] = 'animRight .5s forwards';
 

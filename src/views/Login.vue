@@ -8,7 +8,9 @@
         <div class="section-two">
           <div class="top-text">
             <span class="create-label">Sign In</span>
-            <btutton class="btn-link" @click="directToRegister">Create Account</btutton>
+            <button class="btn-link" @click="directToRegister">
+              Create Account
+            </button>
           </div>
 
           <div class="form-content">
@@ -133,18 +135,25 @@ export default {
           password: this.user.password,
         };
         this.errorMessage = '';
-        await UserService.login(userToSend);
+        await UserService.login(userToSend).then((user) => {
+          localStorage.setItem('access_token', user.data.auth_token);
+          localStorage.setItem('user', JSON.stringify(user.data.user));
+          UserStore.setCurrentUser(user.data);
 
-        const element = document.querySelector('.form');
-        element.style['-webkit-animation'] = 'animRight .5s forwards';
+          const element = document.querySelector('.form');
+          element.style['-webkit-animation'] = 'animRight .5s forwards';
 
-        UserStore.setCurrentUser(this.user);
-
-        setTimeout(() => {
-          this.$router.push('dashboard');
-          UserStore.setUser({});
-        }, 90);
+          setTimeout(() => {
+            this.$router.push({ name: 'Dashboard' });
+          }, 90);
+        });
       } catch (error) {
+        if (error.response.status === 401) {
+          this.$router.push({
+            name: 'Verification',
+            params: { user: error.response.data },
+          });
+        }
         this.errorMessage = error.response.data;
         this.busy = false;
       }
@@ -189,7 +198,7 @@ export default {
     },
     directToRegister() {
       this.$router.push({ name: 'Home' });
-    }
+    },
   },
   mounted() {
     const element = document.querySelector('.form');
