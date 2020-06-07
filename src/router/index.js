@@ -13,27 +13,27 @@ const routes = [
     name: 'Home',
     component: Home,
     props: true,
-    meta: { title: 'Registration' }
+    meta: { title: 'Registration - Multi-Step Form' }
   },
   {
     path: '/verification',
     name: 'Verification',
     component: Verification,
     props: true,
-    meta: { title: 'Verification' }
+    meta: { title: 'Verification - Multi-Step Form' }
   },
   {
     path: '/login',
     name: 'Login',
     component: Login,
     props: true,
-    meta: { title: 'Login' }
+    meta: { title: 'Login - Multi-Step Form' }
   },
   {
     path: '/dashboard',
     name: 'Dashboard',
     component: Dashboard,
-    meta: { title: 'Dashboard' }
+    meta: { title: 'Dashboard - Multi-Step Form' }
   }
 ]
 
@@ -45,5 +45,10 @@ router.beforeEach((to, from, next) => {
   document.title = to.meta.title;
   next();
 });
+
+const originalPush = VueRouter.prototype.push;
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+};
 
 export default router

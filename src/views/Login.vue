@@ -8,7 +8,9 @@
         <div class="section-two">
           <div class="top-text">
             <span class="create-label">Sign In</span>
-            <a href="/">Create Account</a>
+            <button class="btn-link" @click="directToRegister">
+              Create Account
+            </button>
           </div>
 
           <div class="form-content">
@@ -59,43 +61,44 @@
           </div>
           <div>
             <div class="submit-btn">
-              <b-overlay
-                :show="busy"
-                style="text-align: center"
-                rounded
-                opacity="0.6"
-                spinner-small
-                spinner-variant="primary"
-                class="d-inline-block"
+              <b-button
+                ref="button"
+                class="btn-primary success"
+                pill
+                :disabled="busy"
+                variant="success"
+                @click="signin"
               >
-                <b-button
-                  ref="button"
-                  class="btn-primary success"
-                  pill
-                  :disabled="busy"
-                  variant="success"
-                  @click="signin"
-                >
-                  Sign In
-                </b-button>
-              </b-overlay>
+                <b-spinner v-if="busy" small></b-spinner>
+                Sign In
+              </b-button>
             </div>
             <div>
               <h6><span>or</span></h6>
             </div>
 
             <div class="submit-btn">
-              <font-awesome-icon
-                class="brands google"
-                :icon="['fab', 'google']"
-              />
+              <font-awesome-icon class="brands" :icon="['fab', 'google']" />
+              <b-button
+                ref="button"
+                class="btn-primary google"
+                pill
+                variant="primary"
+                @click="socialSignin('google')"
+              >
+                Sign in with Google
+              </b-button>
+            </div>
+            <div class="submit-btn">
+              <font-awesome-icon class="brands" :icon="['fab', 'facebook-f']" />
               <b-button
                 ref="button"
                 class="btn-primary primary"
                 pill
                 variant="primary"
+                @click="socialSignin('facebook')"
               >
-                Sign in with Google
+                Sign in with Facebook
               </b-button>
             </div>
           </div>
@@ -107,42 +110,50 @@
 
 <script>
 import UserService from '../service/UserService';
+import UserStore from '../store/UserStore';
 
 export default {
   name: 'Login',
-  props: ['email'],
   data() {
     return {
-      user: {
-        email: '',
-        password: '',
-      },
+      user: {},
       busy: false,
       errorMessage: '',
       isPassVisibile: false,
     };
   },
   created() {
-    this.user.email = this.email;
+    this.user = UserStore.getUser();
   },
   methods: {
     async signin() {
       this.busy = true;
 
       try {
+        const userToSend = {
+          email: this.user.email,
+          password: this.user.password,
+        };
         this.errorMessage = '';
-        await UserService.login(this.user);
+        await UserService.login(userToSend).then((user) => {
+          localStorage.setItem('access_token', user.data.auth_token);
+          localStorage.setItem('user', JSON.stringify(user.data.user));
+          UserStore.setCurrentUser(user.data);
 
-        const element = document.querySelector('.form');
-        element.style['-webkit-animation'] = 'animRight .5s forwards';
+          const element = document.querySelector('.form');
+          element.style['-webkit-animation'] = 'animRight .5s forwards';
 
-        setTimeout(() => {
-          this.$router.push({
-            name: 'Dashboard',
-            params: { user: this.user },
-          });
-        }, 90);
+          setTimeout(() => {
+            this.$router.push({ name: 'Dashboard' });
+          }, 90);
+        });
       } catch (error) {
+        if (error.response.status === 401) {
+          this.$router.push({
+            name: 'Verification',
+            params: { user: error.response.data },
+          });
+        }
         this.errorMessage = error.response.data;
         this.busy = false;
       }
@@ -157,12 +168,47 @@ export default {
         this.isPassVisibile = false;
       }
     },
+    socialSignin(value) {
+      this.popupwindow(
+        'https://radiant-fjord-77216.herokuapp.com/api/user/' + value + '/',
+        'Multi-Step Form',
+        800,
+        800
+      );
+      window.addEventListener('message', (message) => {
+        if (message.data.user) {
+          localStorage.setItem('access_token', message.data.auth_token);
+          localStorage.setItem('user', JSON.stringify(message.data.user));
+          UserStore.setCurrentUser(message.data.user);
+          this.$router.push({ name: 'Dashboard' });
+        }
+      });
+    },
+    popupwindow(url, title, width, height) {
+      const left = screen.width / 2 - width / 2;
+      const top = screen.height / 2 - height / 2;
+      return window.open(
+        url,
+        title,
+        'location=1,status=1,scrollbars=1,width=' +
+          width +
+          ', height=' +
+          height +
+          ', top=' +
+          top +
+          ', left=' +
+          left
+      );
+    },
+    directToRegister() {
+      this.$router.push({ name: 'Home' });
+    },
   },
   mounted() {
     const element = document.querySelector('.form');
     element.style['-webkit-animation'] = 'animLeft .5s';
 
-    document.getElementById('pass').focus();
+    document.getElementById('email').focus();
   },
 };
 </script>

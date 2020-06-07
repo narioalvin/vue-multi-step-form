@@ -81,8 +81,7 @@ a {
 .form {
   width: 300px;
   min-height: 450px;
-  // height: 82vh;
-  height: 70vh;
+  height: 84vh;
   background: #ffffff;
   border-radius: 10px;
   -webkit-box-shadow: 10px 10px 38px 0px rgba(0, 0, 0, 0.38);
@@ -134,8 +133,7 @@ a {
 .btn-link {
   background: none;
   border: 0;
-  color: #007bff;
-  margin-top: 15px;
+  font-size: 14px;
 }
 
 .btn-link:hover {
@@ -170,7 +168,7 @@ a {
 }
 
 .submit-btn {
-  margin: 20px 0;
+  margin: 10px 0;
   position: relative;
 }
 
@@ -178,12 +176,28 @@ a {
   width: 100%;
 }
 
-.google {
+.brands {
   color: #ffffff;
   position: absolute;
   top: 12px;
   left: 12px;
 }
+
+.facebook {
+  background: #0069d9;
+}
+
+.google {
+  background: #DB4437;
+  border-color: #DB4437;
+}
+
+.google:hover, .google:focus {
+  background: #c23124;
+  border-color: #c23124;
+  box-shadow: none;
+}
+
 
 h6 {
   width: 100%;
@@ -205,7 +219,7 @@ h6 span {
 }
 
 .section-one img {
-  width: 27%;
+  width: 25%;
   position: relative;
   bottom: 40px;
   min-height: 80px;
@@ -341,7 +355,7 @@ h6 span {
     margin-top: 300px;
     overflow: hidden;
     margin-bottom: 10px;
-    min-height: 580px !important;
+    min-height: 600px !important;
   }
 
   .section-two {

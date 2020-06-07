@@ -1,8 +1,10 @@
 let user = {
   name: '',
   email: '',
-  password: ''
+  password: '',
 };
+
+let currentUser = {};
 
 class UserStore {
   static setUser(value) {
@@ -10,6 +12,13 @@ class UserStore {
   }
   static getUser() {
     return user;
+  }
+
+  static setCurrentUser(value) {
+    currentUser = value;
+  }
+  static getCurrentUser() {
+    return currentUser;
   }
 }
 

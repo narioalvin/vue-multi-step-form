@@ -5,15 +5,13 @@
         <div class="verification-container">
           <div>
             <h1>Verify your account</h1>
-            <p class="reminder">
-              A 6-digit code has been sent to {{ user.email }}
-            </p>
+            <p class="reminder">A 6-digit code has been sent to {{ user.email }}</p>
           </div>
           <div>
             <Otp @handleOnComplete="handleOnComplete" />
           </div>
           <div>
-            <a @click="goHome" class="btn-link">Wrong email?</a>
+            <a href="/#/">Wrong email?</a>
           </div>
           <b-modal
             ref="info-modal"
@@ -45,7 +43,6 @@
 import Otp from '@/components/Otp.vue';
 import Check from '@/components/Check.vue';
 import UserService from '../service/UserService';
-import UserStore from '../store/UserStore';
 
 export default {
   name: 'Verification',
@@ -59,7 +56,6 @@ export default {
       loading: false,
       success: Boolean,
       transactionCompleted: false,
-      storedUser: {},
     };
   },
   beforeRouteEnter(to, from, next) {
@@ -71,9 +67,6 @@ export default {
     if (to.name !== 'Home' && !this.transactionCompleted) next({ name: '' });
     else next();
   },
-  created() {
-    this.storedUser = UserStore.getUser();
-  },
   mounted() {
     const element = document.querySelector('.verification');
     element.style['-webkit-animation'] = 'animLeft .5s';
@@ -83,7 +76,11 @@ export default {
       this.loading = true;
 
       try {
-        await UserService.verify(value);
+        const user = {
+          email: this.user.email,
+          code: +value,
+        };
+        await UserService.verify(user);
         this.loading = false;
         this.success = true;
         this.transactionCompleted = true;
@@ -91,7 +88,7 @@ export default {
         setTimeout(() => {
           this.$router.push({
             name: 'Login',
-            params: { email: this.user.email },
+            params: { user: this.user },
           });
         }, 3000);
       } catch (error) {
