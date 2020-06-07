@@ -61,44 +61,44 @@
           </div>
           <div>
             <div class="submit-btn">
-              <b-overlay
-                :show="busy"
-                style="text-align: center"
-                rounded
-                opacity="0.6"
-                spinner-small
-                spinner-variant="primary"
-                class="d-inline-block"
+              <b-button
+                ref="button"
+                class="btn-primary success"
+                pill
+                :disabled="busy"
+                variant="success"
+                @click="signin"
               >
-                <b-button
-                  ref="button"
-                  class="btn-primary success"
-                  pill
-                  :disabled="busy"
-                  variant="success"
-                  @click="signin"
-                >
-                  Sign In
-                </b-button>
-              </b-overlay>
+                <b-spinner v-if="busy" small></b-spinner>
+                Sign In
+              </b-button>
             </div>
             <div>
               <h6><span>or</span></h6>
             </div>
 
             <div class="submit-btn">
-              <font-awesome-icon
-                class="brands google"
-                :icon="['fab', 'google']"
-              />
+              <font-awesome-icon class="brands" :icon="['fab', 'google']" />
+              <b-button
+                ref="button"
+                class="btn-primary google"
+                pill
+                variant="primary"
+                @click="socialSignin('google')"
+              >
+                Sign in with Google
+              </b-button>
+            </div>
+            <div class="submit-btn">
+              <font-awesome-icon class="brands" :icon="['fab', 'facebook-f']" />
               <b-button
                 ref="button"
                 class="btn-primary primary"
                 pill
                 variant="primary"
-                @click="googleSignin"
+                @click="socialSignin('facebook')"
               >
-                Sign in with Google
+                Sign in with Facebook
               </b-button>
             </div>
           </div>
@@ -168,16 +168,20 @@ export default {
         this.isPassVisibile = false;
       }
     },
-    async googleSignin() {
+    socialSignin(value) {
       this.popupwindow(
-        'https://radiant-fjord-77216.herokuapp.com/google',
+        'https://radiant-fjord-77216.herokuapp.com/api/user/' + value + '/',
         'Multi-Step Form',
         800,
         800
       );
       window.addEventListener('message', (message) => {
-        UserStore.setCurrentUser(message.data.user);
-        this.$router.push('dashboard');
+        if (message.data.user) {
+          localStorage.setItem('access_token', message.data.auth_token);
+          localStorage.setItem('user', JSON.stringify(message.data.user));
+          UserStore.setCurrentUser(message.data.user);
+          this.$router.push({ name: 'Dashboard' });
+        }
       });
     },
     popupwindow(url, title, width, height) {
