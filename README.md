@@ -1,12 +1,7 @@
-# Holidays
+# Multi-Step Form
 
 ## Live
 [Click Me](https://narioalvin.github.io/vue-multi-step-form/)
-
-### Requirements
-1. npm
-2. Express API https://narioalvin.github.io/vue-multi-step-form/
-3. MongoDB database
 
 ## Project setup
 ```
