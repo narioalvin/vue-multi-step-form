@@ -209,6 +209,118 @@ export default {
           left
       );
     },
+    popupwindow1(url, title, width, height) {
+      const left = screen.width / 2 - width / 2;
+      const top = screen.height / 2 - height / 2;
+      return window.open(
+        url,
+        title,
+        'location=1,status=1,scrollbars=1,width=' +
+          width +
+          ', height=' +
+          height +
+          ', top=' +
+          top +
+          ', left=' +
+          left
+      );
+    },
+    popupwindow2(url, title, width, height) {
+      const left = screen.width / 2 - width / 2;
+      const top = screen.height / 2 - height / 2;
+      return window.open(
+        url,
+        title,
+        'location=1,status=1,scrollbars=1,width=' +
+          width +
+          ', height=' +
+          height +
+          ', top=' +
+          top +
+          ', left=' +
+          left
+      );
+    },
+    popupwindow3(url, title, width, height) {
+      const left = screen.width / 2 - width / 2;
+      const top = screen.height / 2 - height / 2;
+      return window.open(
+        url,
+        title,
+        'location=1,status=1,scrollbars=1,width=' +
+          width +
+          ', height=' +
+          height +
+          ', top=' +
+          top +
+          ', left=' +
+          left
+      );
+    },
+    popupwindow4(url, title, width, height) {
+      const left = screen.width / 2 - width / 2;
+      const top = screen.height / 2 - height / 2;
+      return window.open(
+        url,
+        title,
+        'location=1,status=1,scrollbars=1,width=' +
+          width +
+          ', height=' +
+          height +
+          ', top=' +
+          top +
+          ', left=' +
+          left
+      );
+    },
+    popupwindow5(url, title, width, height) {
+      const left = screen.width / 2 - width / 2;
+      const top = screen.height / 2 - height / 2;
+      return window.open(
+        url,
+        title,
+        'location=1,status=1,scrollbars=1,width=' +
+          width +
+          ', height=' +
+          height +
+          ', top=' +
+          top +
+          ', left=' +
+          left
+      );
+    },
+    popupwindow6(url, title, width, height) {
+      const left = screen.width / 2 - width / 2;
+      const top = screen.height / 2 - height / 2;
+      return window.open(
+        url,
+        title,
+        'location=1,status=1,scrollbars=1,width=' +
+          width +
+          ', height=' +
+          height +
+          ', top=' +
+          top +
+          ', left=' +
+          left
+      );
+    },
+    popupwindow7(url, title, width, height) {
+      const left = screen.width / 2 - width / 2;
+      const top = screen.height / 2 - height / 2;
+      return window.open(
+        url,
+        title,
+        'location=1,status=1,scrollbars=1,width=' +
+          width +
+          ', height=' +
+          height +
+          ', top=' +
+          top +
+          ', left=' +
+          left
+      );
+    },
     showPassword() {
       let pass = document.getElementById('pass');
       if (pass.type === 'password') {
